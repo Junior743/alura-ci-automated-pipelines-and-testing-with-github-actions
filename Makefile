@@ -4,6 +4,8 @@ lint:
 	docker run --rm -itv $(CURDIR):/app -w /app golangci/golangci-lint golangci-lint run controllers/ database/ models/ routes/
 test: 
 	docker compose exec app go test ./...
+build: 
+	docker compose exec app go build -buildvcs=false ./...
 finish: 
 	docker compose down
-ci: start test finish
+ci: start lint test build finish
